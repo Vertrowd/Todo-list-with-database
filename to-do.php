@@ -120,234 +120,317 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #87CEEB 0%, #FFB6C1 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(135, 206, 235, 0.3);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+    .header {
+        background: linear-gradient(135deg, #87CEEB 0%, #FF69B4 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
 
-        .header h1 {
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
+    .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
 
-        .user-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-        }
+    .header h1 {
+        margin-bottom: 10px;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        position: relative;
+    }
 
-        .logout-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-            padding: 8px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
+    .user-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        position: relative;
+    }
 
-        .logout-btn:hover {
-            background: white;
-            color: #667eea;
-        }
+    .logout-btn {
+        background: rgba(255,255,255,0.3);
+        color: white;
+        border: 2px solid white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+        backdrop-filter: blur(10px);
+    }
 
-        .content {
-            padding: 30px;
-        }
+    .logout-btn:hover {
+        background: white;
+        color: #FF69B4;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
 
-        .add-task-form {
-            display: flex;
-            margin-bottom: 30px;
-            gap: 10px;
-        }
+    .content {
+        padding: 30px;
+    }
 
-        .task-input {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+    .add-task-form {
+        display: flex;
+        margin-bottom: 30px;
+        gap: 10px;
+    }
 
-        .task-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+    .task-input {
+        flex: 1;
+        padding: 15px 20px;
+        border: 2px solid #87CEEB;
+        border-radius: 12px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s;
+    }
 
-        .add-btn {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+    .task-input:focus {
+        outline: none;
+        border-color: #FF69B4;
+        box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2);
+        background: white;
+    }
 
-        .add-btn:hover {
-            transform: translateY(-2px);
-        }
+    .add-btn {
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #87CEEB 0%, #FF69B4 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    }
 
-        .add-btn:disabled {
-            background: #ccc;
-            transform: none;
-            cursor: not-allowed;
-        }
+    .add-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+    }
 
-        .tasks-section h2 {
-            margin-bottom: 20px;
-            color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
+    .add-btn:active {
+        transform: translateY(-1px);
+    }
 
-        .task-list {
-            list-style: none;
-        }
+    .add-btn:disabled {
+        background: #ccc;
+        transform: none;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
 
-        .task-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s;
-        }
+    .tasks-section h2 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+        border-bottom: 3px solid #87CEEB;
+        padding-bottom: 10px;
+        font-weight: 600;
+    }
 
-        .task-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
+    .task-list {
+        list-style: none;
+    }
 
-        .task-item.completed {
-            opacity: 0.7;
-            border-left-color: #28a745;
-        }
+    .task-item {
+        display: flex;
+        align-items: center;
+        padding: 18px;
+        background: linear-gradient(135deg, #f8fbff 0%, #fff5f8 100%);
+        border-radius: 12px;
+        margin-bottom: 12px;
+        border-left: 5px solid #87CEEB;
+        transition: all 0.3s;
+        box-shadow: 0 2px 10px rgba(135, 206, 235, 0.1);
+    }
 
-        .task-checkbox {
-            margin-right: 15px;
-            transform: scale(1.2);
-            cursor: pointer;
-        }
+    .task-item:hover {
+        background: linear-gradient(135deg, #e3f2fd 0%, #ffeef6 100%);
+        transform: translateX(8px);
+        box-shadow: 0 5px 15px rgba(135, 206, 235, 0.2);
+    }
 
-        .task-text {
-            flex: 1;
-            font-size: 16px;
-        }
+    .task-item.completed {
+        opacity: 0.8;
+        border-left-color: #FF69B4;
+        background: linear-gradient(135deg, #f0f8ff 0%, #fff0f5 100%);
+    }
 
-        .task-text.completed {
-            text-decoration: line-through;
-            color: #6c757d;
-        }
+    .task-checkbox {
+        margin-right: 18px;
+        transform: scale(1.3);
+        cursor: pointer;
+        accent-color: #FF69B4;
+    }
 
-        .task-date {
-            font-size: 12px;
-            color: #999;
-            margin-top: 5px;
-        }
+    .task-text {
+        flex: 1;
+        font-size: 16px;
+        color: #2c3e50;
+        font-weight: 500;
+    }
 
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
+    .task-text.completed {
+        text-decoration: line-through;
+        color: #7f8c8d;
+    }
 
-        .delete-btn:hover {
-            background: #c82333;
-        }
+    .task-date {
+        font-size: 12px;
+        color: #87CEEB;
+        margin-top: 5px;
+        font-weight: 500;
+    }
 
-        .no-tasks {
-            text-align: center;
-            color: #6c757d;
-            font-style: italic;
-            padding: 40px;
-        }
+    .delete-btn {
+        background: linear-gradient(135deg, #FF69B4 0%, #ff8cba 100%);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3);
+    }
 
-        .message {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-        }
+    .delete-btn:hover {
+        background: linear-gradient(135deg, #ff4da6 0%, #ff69b4 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+    }
 
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+    .no-tasks {
+        text-align: center;
+        color: #87CEEB;
+        font-style: italic;
+        padding: 40px;
+        font-size: 18px;
+        background: rgba(135, 206, 235, 0.1);
+        border-radius: 12px;
+        border: 2px dashed #87CEEB;
+    }
 
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+    .message {
+        margin: 20px 0;
+        padding: 15px 20px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
 
-        .message.hidden {
-            display: none;
-        }
+    .message.success {
+        background: linear-gradient(135deg, #d4edda 0%, #e8f5e8 100%);
+        color: #155724;
+        border: 2px solid #87CEEB;
+    }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 30px;
-            text-align: center;
-        }
+    .message.error {
+        background: linear-gradient(135deg, #f8d7da 0%, #ffe6e6 100%);
+        color: #721c24;
+        border: 2px solid #FF69B4;
+    }
 
-        .stat-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            flex: 1;
-            margin: 0 10px;
-        }
+    .message.hidden {
+        display: none;
+    }
 
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+        text-align: center;
+        gap: 15px;
+    }
 
-        .stat-label {
-            color: #6c757d;
-            margin-top: 5px;
-        }
-    </style>
+    .stat-card {
+        background: linear-gradient(135deg, #87CEEB 0%, #FFB6C1 100%);
+        padding: 25px 15px;
+        border-radius: 15px;
+        flex: 1;
+        box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
+        transition: all 0.3s;
+        color: white;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(135, 206, 235, 0.4);
+    }
+
+    .stat-number {
+        font-size: 2.2em;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .stat-label {
+        margin-top: 8px;
+        font-weight: 600;
+        opacity: 0.9;
+    }
+
+    /* Floating animation for header */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .header h1 {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    /* Pulse animation for add button */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .add-btn {
+        animation: pulse 2s infinite;
+    }
+
+    .add-btn:hover {
+        animation: none;
+    }
+</style>
 </head>
 <body>
     <div class="container">
